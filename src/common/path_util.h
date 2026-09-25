@@ -25,6 +25,7 @@ enum class PathType {
     CustomTrophy,     // Where custom files for trophies are stored.
     CustomConfigs,    // Where custom files for different games are stored.
     CacheDir,         // Where pipeline and shader cache is stored.
+    UsbDir,           // Where virtual USB storage is mapped.
     FontsDir,         // Where dumped system fonts are stored.
     TrophyDir,        // Where general trophy metadata is stored.
     HomeDir,          // PS4 home directory
@@ -44,6 +45,7 @@ constexpr auto SYSMODULES_DIR = "sys_modules";
 constexpr auto DOWNLOAD_DIR = "download";
 constexpr auto CAPTURES_DIR = "captures";
 constexpr auto CHEATS_DIR = "cheats";
+constexpr auto USB_DIR = "usb";
 constexpr auto PATCHES_DIR = "patches";
 constexpr auto METADATA_DIR = "game_data";
 constexpr auto CUSTOM_TROPHY = "custom_trophy";

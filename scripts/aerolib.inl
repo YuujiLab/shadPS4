@@ -39356,7 +39356,6 @@ STUB("Ckk8xQfD6dg", delegate_virtual_invoke_imt_5_p)
 STUB("CkomU+GYCQ8", sceKernelSetAppInfo)
 STUB("Cl2V3DEEHcs", _ZN9Inspector31createScriptCallStackForConsoleEPN3JSC14JSGlobalObjectEm)
 STUB("Cl56AZ183lA", _ZNK3sce2Np9CppWebApi6Common12IntrusivePtrINS2_13ConstIteratorIfEEEcvbEv)
-STUB("ClBMa8CWKkM", sceUsbStorageDialogOpen)
 STUB(
     "ClBol8ZgBBg",
     _ZNK3sce2Np9CppWebApi6Common6VectorINS2_12IntrusivePtrINS1_14SessionManager2V132RequestPlayerSessionMemberPlayerEEEE3endEv)
@@ -54898,7 +54897,6 @@ STUB("IX23slKvtQI", sceHttp2GetCookieBox)
 STUB(
     "IX3hFDHY5CM",
     _ZN3sce2Np9CppWebApi12Leaderboards2V112ErrorFactory6createEPNS1_6Common10LibContextERKNS_4Json5ValueEPNS5_12IntrusivePtrINS3_5ErrorEEE)
-STUB("IX49aL2rOGU", sceUsbStorageDialogInitialize)
 STUB(
     "IX4wH3rBSFY",
     _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS2_6VectorINS3_INS1_14SessionManager2V134PostGameSessionsSearchResponseBodyEEEEEEC2Ev)
@@ -58996,7 +58994,6 @@ STUB("K7TCNQ4DrdE", EVP_aes_192_wrap)
 STUB(
     "K7TMA9sw+TA",
     _ZN3sce2Np9CppWebApi6Common15TransactionBaseINS2_12IntrusivePtrINS1_17TitleCloudStorage2V122UploadDataResponseBodyEEENS4_INS6_7DataApi25UploadDataResponseHeadersEEEE28setResponseInformationOptionEP37SceNpWebApi2ResponseInformationOption)
-STUB("K7Vb-7JGXVc", sceUsbStorageDialogClose)
 STUB("K7W7H4ZRwbc", sceCameraSetLensCorrection)
 STUB(
     "K7WCJ2vH2bg",
@@ -66076,7 +66073,6 @@ STUB(
 STUB("MpUzIfTxkOo", mono_aot_System_Transactionsunbox_trampolines_end)
 STUB("MpVt9mcsYuY",
      _ZN3sce2Np9CppWebApi6Common6VectorINS1_11Matchmaking2V113AttributeTypeEE5beginEv)
-STUB("MpXK+QLRpwU", sceUsbStorageDialogUpdateStatus)
 STUB(
     "MpXakmQ1h5A",
     _ZNK3sce2Np9CppWebApi6Common8IteratorINS2_12IntrusivePtrINS1_14SessionManager2V125PlayerSessionNonPsnPlayerEEEEneERKS9_)
@@ -69548,7 +69544,6 @@ STUB(
     _ZNK3sce2Np9CppWebApi6Common13ConstIteratorINS2_12IntrusivePtrINS1_21AdvancedPlayerProfile2V125FrequentlyMutedPropertiesEEEEeqERKS9_)
 STUB("O2mP3Fu1QUo", g_slist_free)
 STUB("O2p7K6EmzhY", _ZNK3sce2Np9CppWebApi14IdentityMapper2V311OnlineIdMap15isRecycledIsSetEv)
-STUB("O2rgVi8YyOg", sceUsbStorageDialogTerminate)
 STUB("O2t1Dm4eMig", sceNpSnsDailymotionDialogOpen)
 STUB("O2wxIdbMcMQ",
      _ZGVZNSt13basic_filebufIwSt11char_traitsIwEE5_InitEP7__sFILENS2_7_InitflEE7_Stinit)
@@ -157399,7 +157394,6 @@ STUB(
 STUB(
     "ukytsyDkqq4",
     _ZN3sce2Np9CppWebApi6Common13ConstIteratorINS2_12IntrusivePtrINS1_7Matches2V117LeaveMatchRequestEEEEC1EPKS8_)
-STUB("ul-kdmwPExY", sceUsbStorageDialogGetResult)
 STUB(
     "ul-pKV4m3Gk",
     _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS1_14IdentityMapper2V312IDMappingApi36GetAccountId2OnlineIdResponseHeadersEEaSERS8_)
@@ -169708,7 +169702,6 @@ STUB(
 STUB("zHtnGa2jFQs", _ZN3sce7Toolkit2NP2V27Ranking12FriendsRanks14MAX_NUM_BOARDSE)
 STUB("zHuMUGb-AQI", sceImeCheckRemoteEventParam)
 STUB("zHxRg0AUZm8", sceNpAsmClientClearNpTitleTokenA)
-STUB("zI+X8+h6dL8", sceUsbStorageDialogGetStatus)
 STUB(
     "zI0+8x15cVM",
     _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS1_21AdvancedPlayerProfile2V129FrequentlyMutedInPartyMetricsEEC2Ev)
