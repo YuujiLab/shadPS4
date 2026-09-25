@@ -82,13 +82,20 @@ Error PS4_SYSV_ABI sceUsbStorageDialogTerminate() {
 }
 
 void RegisterLib(Core::Loader::SymbolsResolver* sym) {
-    LIB_FUNCTION("IX49aL2rOGU", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogInitialize);
-    LIB_FUNCTION("ClBMa8CWKkM", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogOpen);
-    LIB_FUNCTION("MpXK+QLRpwU", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogUpdateStatus);
-    LIB_FUNCTION("zI+X8+h6dL8", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogGetStatus);
-    LIB_FUNCTION("ul-kdmwPExY", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogGetResult);
-    LIB_FUNCTION("K7Vb-7JGXVc", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogClose);
-    LIB_FUNCTION("O2rgVi8YyOg", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog", sceUsbStorageDialogTerminate);
+    LIB_FUNCTION("IX49aL2rOGU", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogInitialize);
+    LIB_FUNCTION("ClBMa8CWKkM", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogOpen);
+    LIB_FUNCTION("MpXK+QLRpwU", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogUpdateStatus);
+    LIB_FUNCTION("zI+X8+h6dL8", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogGetStatus);
+    LIB_FUNCTION("ul-kdmwPExY", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogGetResult);
+    LIB_FUNCTION("K7Vb-7JGXVc", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogClose);
+    LIB_FUNCTION("O2rgVi8YyOg", "libSceUsbStorageDialog", 1, "libSceUsbStorageDialog",
+                 sceUsbStorageDialogTerminate);
 }
 
 } // namespace Libraries::UsbStorageDialog
