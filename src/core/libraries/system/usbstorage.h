@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: Copyright 2024 shadPS4 Emulator Project
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #pragma once
 
 #include "common/types.h"
@@ -16,7 +19,8 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, cons
                                                          char* mountPoint,
                                                          uint64_t* additionalFeatureFlags,
                                                          const void* dbgData, size_t dbgDataSize);
-CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestUnmap(uint32_t deviceId, const char* directory);
+CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestUnmap(uint32_t deviceId,
+                                                           const char* directory);
 
 void RegisterLib(Core::Loader::SymbolsResolver* sym);
 
