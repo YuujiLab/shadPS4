@@ -3422,7 +3422,6 @@ STUB(
     _ZNK3sce2Np9CppWebApi6Common6VectorINS2_12IntrusivePtrINS1_21AdvancedPlayerProfile2V128FrequentlyMutedInGameMetricsEEEE8capacityEv)
 STUB("-Gl-h+vKl14", _ZN7WebCore11MediaPlayer10setVisibleEb)
 STUB("-Gs4mL5SRp8", umsg_setLocale_67)
-STUB("-GvBqz54ssU", sceUsbStorageGetDeviceInfo)
 STUB(
     "-H0Qm52uHi4",
     _ZN3sce2Np9CppWebApi17TitleCloudStorage2V17DataApi37ParameterToGetMultiDataStatusesBySlotC1ERS5_)
@@ -35483,7 +35482,6 @@ STUB(
 STUB(
     "BDDT3qQnSN8",
     _ZN3sce2Np9CppWebApi6Common13ConstIteratorINS2_12IntrusivePtrINS1_14SessionManager2V136UsersPlayerSessionsInvitationForReadEEEEC1EPKS8_)
-STUB("BDDZwF5kuTc", sceUsbStorageInit)
 STUB("BDGc8ohuveU", sceKernelGetPrefixVersion)
 STUB("BDK0OHPh5wc", __sqrtf)
 STUB("BDLSyH7y6Mo", sceKernelSetPhysFmemLimit)
@@ -54080,7 +54078,6 @@ STUB(
 STUB("IDWlJ-Pqm78", getzone)
 STUB("IDXFgpkpDsU", sceNpAsmGetNpCommInfo2)
 STUB("IDYAnLE0+kM", _ZN9Inspector28HeapBackendDispatcherHandlerC2ERKS0_)
-STUB("IDYJZSeBgDs", sceUsbStorageRequestMap)
 STUB("IDZbJIVb5JI",
      _ZN3sce2Np9CppWebApi6Common13ConstIteratorINS2_12IntrusivePtrINS1_7Matches2V14TaskEEEEppEi)
 STUB(
@@ -93297,7 +93294,6 @@ STUB(
 STUB(
     "Wp89y6zGg2s",
     _ZN3sce2Np9CppWebApi6Common8IteratorINS2_12IntrusivePtrINS1_7Matches2V119RequestInGameRosterEEEEC1Ev)
-STUB("Wp8zHTocS5E", sceUsbStorageTerm)
 STUB(
     "WpAliLBlSKU",
     _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS1_14SessionManager2V143PutPlayerSessionsSessionIdLeaderRequestBodyEEC1Ev)
@@ -117109,7 +117105,6 @@ STUB("fl+SfiowG5M", WKBundlePageUninstallPageOverlayWithAnimation)
 STUB("fl0Ob2AccBI",
      _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS1_14SessionManager2V116FromNonPsnMemberEEaSERS7_)
 STUB("fl1eoDnwQ4s", sceDiscMapGetPackageSize)
-STUB("fl3roYs7F9U", sceUsbStorageRequestUnmap)
 STUB(
     "fl7L3aMGYwg",
     _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS1_14SessionManager2V124PlayerSessionPushContextEEC1EPS6_PNS2_10LibContextE)
@@ -136365,7 +136360,6 @@ STUB(
     _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS2_6VectorINS3_INS1_17TitleCloudStorage2V15OwnerEEEEEE7add_refEv)
 STUB("mrvPNIBvyAs", uscript_getSampleString)
 STUB("mryKx6akQCM", _ZN3JSC8Bindings13RuntimeObjectD1Ev)
-STUB("mryrNITeYvI", sceUsbStorageGetDeviceList)
 STUB("ms0ZkUw5sR4", mono_arch_get_rethrow_exception)
 STUB(
     "ms0pz2+M3t4",
@@ -149930,7 +149924,6 @@ STUB("rx6FnnUyW5I",
      _ZN3sce2Np9CppWebApi6Common6VectorINS1_11Matchmaking2V112TicketStatusEE7popBackEv)
 STUB("rx6wK+L8tIE",
      _ZN3sce2Np9CppWebApi6Common12IntrusivePtrINS2_6VectorINS3_INS1_7Matches2V17SubtaskEEEEEED1Ev)
-STUB("rx7EcAS2ARk", sceUsbStorageRequestMapWSB)
 STUB("rx98IFa3Nq8", WKViewReplyJavaScriptConfirm)
 STUB("rxAx2s8-EAk", _ZN3sce2Np9CppWebApi6Common6VectorINS1_7Matches2V114ResultsVersionEED1Ev)
 STUB("rxClJyOYLPo", mono_metadata_compute_size)
@@ -153733,7 +153726,6 @@ STUB("tO2b+Gu2OW0",
      _ZNK3sce7Toolkit2NP9Utilities6FutureISbIcSt11char_traitsIcENS1_15AppSTLAllocatorIcEEEE3getEv)
 STUB("tO3zi5GOrgc", _ZN7WebCore9HTMLNames18accept_charsetAttrE)
 STUB("tO4tw6Me0AQ", _ZN7WebCore9HTMLNames10lowsrcAttrE)
-STUB("tO8DvyElInw", sceUsbStorageIsExist)
 STUB(
     "tO9I58zL4Ko",
     _ZNK3sce2Np9CppWebApi6Common8IteratorINS2_12IntrusivePtrINS1_7Matches2V121ResponsePlayerResultsEEEEdeEv)

@@ -68,6 +68,7 @@
 #include "core/libraries/system/commondialog.h"
 #include "core/libraries/system/msgdialog.h"
 #include "core/libraries/system/systemservice.h"
+#include "core/libraries/system/usbstorage.h"
 #include "core/libraries/system/usbstoragedialog.h"
 #include "core/libraries/system/userservice.h"
 #include "core/libraries/ulobjmgr/ulobjmgr.h"
@@ -112,6 +113,7 @@ void InitHLELibs(Core::Loader::SymbolsResolver* sym) {
             {"libSceSystemService.sprx", Libraries::SystemService::RegisterLib},
             {"libScePad.sprx", Libraries::Pad::RegisterLib},
             {"libSceCommonDialog.sprx", Libraries::CommonDialog::RegisterLib},
+            {"libSceUsbStorage.sprx", Libraries::UsbStorage::RegisterLib},
             {"libSceUsbStorageDialog.sprx", Libraries::UsbStorageDialog::RegisterLib},
             {"libSceMsgDialog.sprx", Libraries::MsgDialog::RegisterLib},
             {"libSceAudioOut.sprx", Libraries::AudioOut::RegisterLib},

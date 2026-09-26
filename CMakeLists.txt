@@ -424,6 +424,8 @@ set(SYSTEM_LIBS src/core/libraries/system/commondialog.cpp
                 src/core/libraries/system/commondialog.h
                 src/core/libraries/system/msgdialog.cpp
                 src/core/libraries/system/msgdialog.h
+                src/core/libraries/system/usbstorage.cpp
+                src/core/libraries/system/usbstorage.h
                 src/core/libraries/system/usbstoragedialog.cpp
                 src/core/libraries/system/usbstoragedialog.h
                 src/core/libraries/system/msgdialog_ui.cpp
