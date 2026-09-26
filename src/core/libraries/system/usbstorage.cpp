@@ -8,11 +8,11 @@
 namespace Libraries::UsbStorage {
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageInit() {
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageTerm() {
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceList(uint32_t* deviceIds, int* numDevices) {
@@ -20,14 +20,14 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceList(uint32_t* deviceIds,
         deviceIds[0] = 1; // Fake device ID
         *numDevices = 1;
     }
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceInfo(uint32_t deviceId, void* deviceInfo) {
     if (deviceInfo) {
         std::memset(deviceInfo, 0, 824); // Zero out the struct
     }
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageIsExist(uint32_t deviceId, const char* directory,
@@ -35,7 +35,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageIsExist(uint32_t deviceId, const c
     if (out_exists) {
         *out_exists = true; // Pretend it exists
     }
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, const char* directory,
@@ -44,14 +44,14 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, cons
                                                          uint64_t* additionalFeatureFlags,
                                                          const void* dbgData, size_t dbgDataSize) {
     if (mountPoint) {
-        std::strcpy(mountPoint, \"/usb0\"); // Return the mounted path
+        std::strcpy(mountPoint, "/usb0"); // Return the mounted path
     }
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestUnmap(uint32_t deviceId,
                                                            const char* directory) {
-    return CommonDialog::Error::NONE;
+    return CommonDialog::Error::OK;
 }
 
 void RegisterLib(Core::Loader::SymbolsResolver* sym) {
