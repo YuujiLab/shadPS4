@@ -61,7 +61,10 @@ Error PS4_SYSV_ABI sceUsbStorageDialogGetResult(void* result) {
         return Error::ARG_NULL;
     }
 
-    std::memset(result, 0, 32); // Clear mode(0), result(4), deviceId(8/12), etc.
+    std::memset(result, 0, 32); // Clear everything
+    *(s32*)((u8*)result + 4) = 0; // result (0 = OK)
+    *(s32*)((u8*)result + 8) = 1; // buttonId (1 = YES/OK)
+    *(u32*)((u8*)result + 12) = 0; // deviceId (0 = our mock device)
 
     return Error::OK;
 }

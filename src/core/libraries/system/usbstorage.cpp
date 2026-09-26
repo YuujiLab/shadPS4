@@ -20,7 +20,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageTerm() {
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceList(uint32_t* deviceIds, int* numDevices) {
     LOG_ERROR(Lib_SysModule, "sceUsbStorageGetDeviceList called, deviceIds: {}, numDevices: {}",
-             (void*)deviceIds, (void*)numDevices);
+              (void*)deviceIds, (void*)numDevices);
     if (deviceIds && numDevices) {
         deviceIds[0] = 0; // Fake device ID (must match Dialog Result)
         *numDevices = 1;
@@ -39,7 +39,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceInfo(uint32_t deviceId, v
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageIsExist(uint32_t deviceId, const char* directory,
                                                       bool* out_exists) {
     LOG_ERROR(Lib_SysModule, "sceUsbStorageIsExist called, deviceId: {}, directory: {}", deviceId,
-             directory ? directory : "null");
+              directory ? directory : "null");
     if (out_exists) {
         *out_exists = true; // Pretend it exists
     }
@@ -52,8 +52,8 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, cons
                                                          uint64_t* additionalFeatureFlags,
                                                          const void* dbgData, size_t dbgDataSize) {
     LOG_ERROR(Lib_SysModule,
-             "sceUsbStorageRequestMap called, deviceId: {}, directory: {}, mountPoint ptr: {}",
-             deviceId, directory ? directory : "null", (void*)mountPoint);
+              "sceUsbStorageRequestMap called, deviceId: {}, directory: {}, mountPoint ptr: {}",
+              deviceId, directory ? directory : "null", (void*)mountPoint);
     if (mountPoint) {
         std::strcpy(mountPoint, "/usb0"); // Return the mounted path
     }
@@ -63,7 +63,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, cons
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestUnmap(uint32_t deviceId,
                                                            const char* directory) {
     LOG_ERROR(Lib_SysModule, "sceUsbStorageRequestUnmap called, deviceId: {}, directory: {}",
-             deviceId, directory ? directory : "null");
+              deviceId, directory ? directory : "null");
     return CommonDialog::Error::OK;
 }
 
