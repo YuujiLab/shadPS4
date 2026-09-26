@@ -9,17 +9,17 @@
 namespace Libraries::UsbStorage {
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageInit() {
-    LOG_INFO(Lib_SysModule, "sceUsbStorageInit called");
+    LOG_ERROR(Lib_SysModule, "sceUsbStorageInit called");
     return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageTerm() {
-    LOG_INFO(Lib_SysModule, "sceUsbStorageTerm called");
+    LOG_ERROR(Lib_SysModule, "sceUsbStorageTerm called");
     return CommonDialog::Error::OK;
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceList(uint32_t* deviceIds, int* numDevices) {
-    LOG_INFO(Lib_SysModule, "sceUsbStorageGetDeviceList called, deviceIds: {}, numDevices: {}",
+    LOG_ERROR(Lib_SysModule, "sceUsbStorageGetDeviceList called, deviceIds: {}, numDevices: {}",
              (void*)deviceIds, (void*)numDevices);
     if (deviceIds && numDevices) {
         deviceIds[0] = 0; // Fake device ID (must match Dialog Result)
@@ -29,7 +29,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceList(uint32_t* deviceIds,
 }
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceInfo(uint32_t deviceId, void* deviceInfo) {
-    LOG_INFO(Lib_SysModule, "sceUsbStorageGetDeviceInfo called, deviceId: {}", deviceId);
+    LOG_ERROR(Lib_SysModule, "sceUsbStorageGetDeviceInfo called, deviceId: {}", deviceId);
     if (deviceInfo) {
         std::memset(deviceInfo, 0, 824); // Zero out the struct
     }
@@ -38,7 +38,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageGetDeviceInfo(uint32_t deviceId, v
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageIsExist(uint32_t deviceId, const char* directory,
                                                       bool* out_exists) {
-    LOG_INFO(Lib_SysModule, "sceUsbStorageIsExist called, deviceId: {}, directory: {}", deviceId,
+    LOG_ERROR(Lib_SysModule, "sceUsbStorageIsExist called, deviceId: {}, directory: {}", deviceId,
              directory ? directory : "null");
     if (out_exists) {
         *out_exists = true; // Pretend it exists
@@ -51,7 +51,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, cons
                                                          char* mountPoint,
                                                          uint64_t* additionalFeatureFlags,
                                                          const void* dbgData, size_t dbgDataSize) {
-    LOG_INFO(Lib_SysModule,
+    LOG_ERROR(Lib_SysModule,
              "sceUsbStorageRequestMap called, deviceId: {}, directory: {}, mountPoint ptr: {}",
              deviceId, directory ? directory : "null", (void*)mountPoint);
     if (mountPoint) {
@@ -62,7 +62,7 @@ CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestMap(uint32_t deviceId, cons
 
 CommonDialog::Error PS4_SYSV_ABI sceUsbStorageRequestUnmap(uint32_t deviceId,
                                                            const char* directory) {
-    LOG_INFO(Lib_SysModule, "sceUsbStorageRequestUnmap called, deviceId: {}, directory: {}",
+    LOG_ERROR(Lib_SysModule, "sceUsbStorageRequestUnmap called, deviceId: {}, directory: {}",
              deviceId, directory ? directory : "null");
     return CommonDialog::Error::OK;
 }

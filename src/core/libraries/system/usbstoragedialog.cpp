@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: Copyright 2024 shadPS4 Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <cstring>
 #include "common/logging/log.h"
 #include "core/libraries/libs.h"
 #include "core/libraries/system/usbstoragedialog.h"
@@ -14,7 +15,7 @@ using CommonDialog::Status;
 static auto g_status = Status::NONE;
 
 Error PS4_SYSV_ABI sceUsbStorageDialogInitialize() {
-    LOG_DEBUG(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     if (!CommonDialog::g_isInitialized) {
         return Error::NOT_SYSTEM_INITIALIZED;
     }
@@ -30,7 +31,7 @@ Error PS4_SYSV_ABI sceUsbStorageDialogInitialize() {
 }
 
 Error PS4_SYSV_ABI sceUsbStorageDialogOpen(const void* param) {
-    LOG_DEBUG(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     if (g_status != Status::INITIALIZED && g_status != Status::FINISHED) {
         return Error::INVALID_STATE;
     }
@@ -42,17 +43,17 @@ Error PS4_SYSV_ABI sceUsbStorageDialogOpen(const void* param) {
 }
 
 Status PS4_SYSV_ABI sceUsbStorageDialogUpdateStatus() {
-    LOG_TRACE(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     return g_status;
 }
 
 Status PS4_SYSV_ABI sceUsbStorageDialogGetStatus() {
-    LOG_TRACE(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     return g_status;
 }
 
 Error PS4_SYSV_ABI sceUsbStorageDialogGetResult(void* result) {
-    LOG_DEBUG(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     if (g_status != Status::FINISHED) {
         return Error::NOT_FINISHED;
     }
@@ -60,19 +61,18 @@ Error PS4_SYSV_ABI sceUsbStorageDialogGetResult(void* result) {
         return Error::ARG_NULL;
     }
 
-    *(s32*)((u8*)result + 8) = 0;
-    *(u32*)((u8*)result + 12) = 0;
+    std::memset(result, 0, 32); // Clear mode(0), result(4), deviceId(8/12), etc.
 
     return Error::OK;
 }
 
 Error PS4_SYSV_ABI sceUsbStorageDialogClose() {
-    LOG_DEBUG(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     return Error::OK;
 }
 
 Error PS4_SYSV_ABI sceUsbStorageDialogTerminate() {
-    LOG_DEBUG(Lib_CommonDlg, "called");
+    LOG_ERROR(Lib_CommonDlg, "called");
     if (g_status == Status::NONE) {
         return Error::NOT_INITIALIZED;
     }
