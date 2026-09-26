@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include "common/logging/log.h"
+#include "core/libraries/libs.h"
 #include "core/libraries/system/usbstorage.h"
 
 namespace Libraries::UsbStorage {
