@@ -6,12 +6,14 @@
 #include <deque>
 #include <boost/container/small_vector.hpp>
 
+#include "common/enum.h"
 #include "common/interval_set.h"
 #include "common/types.h"
 #include "video_core/buffer_cache/buffer.h"
 #include "video_core/buffer_cache/fault_manager.h"
 #include "video_core/buffer_cache/range_set.h"
 #include "video_core/renderer_vulkan/vk_semaphore.h"
+#include "video_core/texture_cache/image.h"
 
 namespace AmdGpu {
 struct Liverpool;
@@ -26,6 +28,7 @@ class GraphicsPipeline;
 struct SubmitInfo;
 class Runtime;
 class StagingBufferPool;
+struct StagingBufferRef;
 } // namespace Vulkan
 
 namespace VideoCore {
@@ -33,6 +36,15 @@ namespace VideoCore {
 class TextureCache;
 class MemoryTracker;
 class PageManager;
+
+enum class ObtainBufferFlags {
+    None = 0,
+    IsWritten = 1 << 0,
+    IsTexelBuffer = 1 << 1,
+    IgnoreStreamBuffer = 1 << 2,
+    InvalidateTextureCache = 1 << 3,
+};
+DECLARE_ENUM_FLAG_OPERATORS(ObtainBufferFlags)
 
 class BufferCache {
     static constexpr u64 ADDRESS_SPACE_BITS = 40;
@@ -53,6 +65,10 @@ public:
         return &gds_buffer;
     }
 
+    [[nodiscard]] const Buffer* GetNullIndexBuffer() const noexcept {
+        return null_index_buffer.get();
+    }
+
     /// Retrieves the device local DBA page table buffer.
     [[nodiscard]] Buffer* GetBdaPageTableBuffer() noexcept {
         return bda_pagetable_buffer.get();
@@ -68,11 +84,6 @@ public:
         return stream_buffer;
     }
 
-    /// Return true when a region has a pending synchronization request.
-    [[nodiscard]] bool IsRegionInSyncBatch(VAddr addr, size_t size) const noexcept {
-        return sync_batch.Overlaps(addr, addr + size);
-    }
-
     /// Returns minimum granularity of a sparse memory bind.
     u32 GetSparsePageShift() const noexcept {
         return block_shift;
@@ -83,13 +94,19 @@ public:
     /// Invalidates any buffer in the logical page range.
     void InvalidateMemory(VAddr device_addr, u64 size, bool assume_locks = false);
 
+    /// Unmark a region as modified from the GPU.
+    void UnmarkRegionAsGpuModified(VAddr device_addr, u64 size, bool is_write = false);
+
     /// Flushes any GPU modified buffer in the logical page range back to CPU memory.
-    void ReadMemory(VAddr device_addr, u64 size, bool is_write = false, bool assume_locks = false);
+    void ReadMemory(VAddr device_addr, u64 size, bool is_write = false, bool async = false,
+                    bool assume_locks = false);
+
+    /// Flushes GPU modified ranges of the uncovered part of the edge pages of an image.
+    void ReadEdgeImagePages(const Image& image);
 
     /// Finds a buffer for the specified region.
-    [[nodiscard]] std::pair<const Buffer*, u64> ObtainBuffer(VAddr device_addr, u32 size,
-                                                             bool is_written,
-                                                             bool is_texel_buffer = false);
+    [[nodiscard]] std::pair<const Buffer*, u64> ObtainBuffer(
+        VAddr device_addr, u32 size, ObtainBufferFlags flags = ObtainBufferFlags::None);
 
     /// Attempts to obtain a buffer without modifying the cache contents.
     [[nodiscard]] std::pair<const Buffer*, u64> ObtainBufferForImage(VAddr device_addr, u32 size);
@@ -100,14 +117,14 @@ public:
     /// Return true when a region is modified from the GPU
     [[nodiscard]] bool IsRegionGpuModified(VAddr addr, size_t size);
 
+    /// Mark region as modified from the GPU
+    void MarkRegionAsGpuModified(VAddr addr, size_t size);
+
     /// Synchronizes all buffers needed for DMA.
     void SynchronizeDmaBuffers();
 
     /// Commits pending sparse buffer memory binds. Must be called before every scheduler submit.
     void SubmitPendingArenaBinds(Vulkan::SubmitInfo& info);
-
-    /// Flushes pending synchronization requests
-    void FlushSyncBatch(bool from_scheduler = false);
 
 private:
     struct ArenaBinds {
@@ -127,7 +144,11 @@ private:
 
     void EnsureResident(const Buffer* arena, u64 first_block, u64 last_block);
 
-    void DownloadMemory(const Buffer* arena, VAddr device_addr, u64 size);
+    void DownloadMemory(const Buffer* arena, VAddr device_addr, u64 size, bool is_write,
+                        bool async);
+
+    bool SynchronizeMemory(const Buffer* arena, VAddr device_addr, u32 size, bool is_written,
+                           bool is_texel_buffer);
 
     bool SynchronizeMemoryFromImage(const Buffer* arena, VAddr device_addr, u32 size);
 
@@ -142,6 +163,7 @@ private:
 
     StreamBuffer stream_buffer;
     Buffer gds_buffer;
+    std::unique_ptr<Buffer> null_index_buffer;
     RangeSet gpu_modified_ranges;
 
     std::unique_ptr<FaultManager> fault_manager;
@@ -164,21 +186,6 @@ private:
         }
     };
     IntervalList<Backing> resident_ranges;
-
-    struct SyncRange : Interval {
-        bool written;
-        constexpr bool CanMergeWith(const SyncRange& o) const noexcept {
-            return written == o.written;
-        }
-        constexpr SyncRange SubRange(u64 a, u64 b) const noexcept {
-            return {{a, b}, written};
-        }
-        constexpr bool Dominant(const SyncRange& o) const noexcept {
-            return written && !o.written;
-        }
-    };
-    DomIntervalList<SyncRange> sync_batch{};
-    u32 num_flushes_per_frame{};
 
     u32 arena_memory_type_index{};
     u32 block_size{};

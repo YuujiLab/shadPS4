@@ -70,7 +70,7 @@ void MemoryManager::SetupMemoryRegions(u64 flexible_size, bool use_extended_mem1
     s32 extra_fmem = EmulatorSettings.GetExtraFmemInMBytes();
     if (extra_fmem != 0) {
         LOG_WARNING(Kernel_Vmm, "extraFmemInMbytes is {} MB! Old Size: {:#x} -> New Size: {:#x}",
-                    extra_dmem, ORBIS_KERNEL_FLEXIBLE_MEMORY_SIZE,
+                    extra_fmem, ORBIS_KERNEL_FLEXIBLE_MEMORY_SIZE,
                     ORBIS_KERNEL_FLEXIBLE_MEMORY_SIZE + extra_fmem * 1_MB);
         total_size += extra_fmem * 1_MB;
         flexible_size += extra_fmem * 1_MB;
@@ -145,27 +145,19 @@ void MemoryManager::SetPrtArea(u32 id, VAddr address, u64 size) {
 }
 
 void MemoryManager::CopySparseMemory(VAddr virtual_addr, u8* dest, u64 size) {
-    std::shared_lock lk{mutex};
-    ASSERT_MSG(IsValidMapping(virtual_addr), "Attempted to access invalid address {:#x}",
-               virtual_addr);
-
-    auto vma = FindVMA(virtual_addr);
+    const auto& backing_pages = impl.BackingPages();
     while (size) {
-        const u64 offset = virtual_addr - vma->first;
-        const u64 copy_size = std::min<u64>(vma->second.size - (virtual_addr - vma->first), size);
-        if (vma->second.IsMapped()) {
-            u8* out = dest;
-            vma->second.ForEachPhysArea(offset, copy_size, [&](PAddr paddr, u32 chunk_size) {
-                std::memcpy(out, impl.BackingBase() + paddr, chunk_size);
-                out += chunk_size;
-            });
+        const u64 page = virtual_addr >> 14;
+        const u64 offset_in_page = virtual_addr % 16_KB;
+        const u64 copy_size = std::min<u64>(16_KB - offset_in_page, size);
+        if (auto* entry = backing_pages.find(page); entry && *entry) {
+            std::memcpy(dest, *entry + offset_in_page, copy_size);
         } else {
             std::memset(dest, 0, copy_size);
         }
         size -= copy_size;
         virtual_addr += copy_size;
         dest += copy_size;
-        ++vma;
     }
 }
 
@@ -201,6 +193,7 @@ bool MemoryManager::TryWriteBacking(void* address, const void* data, u64 size) {
             u8* backing = impl.BackingBase() + phys_handle->second.base + start_in_dma;
             u64 copy_size = std::min<u64>(size, phys_handle->second.size - start_in_dma);
             memcpy(backing, data, copy_size);
+            data = static_cast<const u8*>(data) + copy_size;
             size -= copy_size;
         }
     }
@@ -1128,7 +1121,25 @@ s32 MemoryManager::Protect(VAddr addr, u64 size, MemoryProt prot) {
 
     // Ensure the range to modify is valid
     std::scoped_lock lk{mutex, unmap_mutex};
-    ASSERT_MSG(IsValidMapping(addr, size), "Attempted to access invalid address {:#x}", addr);
+
+    const VAddr vbase = impl.SystemManagedVirtualBase();
+    const VAddr vend = vbase + impl.SystemManagedVirtualSize();
+
+    // In the PS4 kernel, invalid pages are ignored and only mapped pages in range are protected.
+    if (addr < vbase) {
+        const u64 skip = vbase - addr;
+        if (skip >= size) {
+            return ORBIS_OK;
+        }
+        addr += skip;
+        size -= skip;
+    }
+    if (addr >= vend) {
+        return ORBIS_OK;
+    }
+    if (addr + size > vend) {
+        size = vend - addr;
+    }
 
     // Appropriately restrict flags.
     constexpr static MemoryProt flag_mask =
@@ -1139,15 +1150,24 @@ s32 MemoryManager::Protect(VAddr addr, u64 size, MemoryProt prot) {
     s64 protected_bytes = 0;
     while (protected_bytes < size) {
         auto it = FindVMA(addr + protected_bytes);
+        if (it == vma_map.end()) {
+            break;
+        }
         auto& vma_base = it->second;
         if (vma_base.base > addr + protected_bytes) {
             // Account for potential gaps in memory map.
             protected_bytes += vma_base.base - (addr + protected_bytes);
+            if (protected_bytes >= size) {
+                break;
+            }
         }
         auto result = ProtectBytes(addr + protected_bytes, vma_base, size - protected_bytes, prot);
         if (result < 0) {
             // ProtectBytes returned an error, return it
             return result;
+        }
+        if (result == 0) {
+            break;
         }
         protected_bytes += result;
     }

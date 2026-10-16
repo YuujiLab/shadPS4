@@ -151,22 +151,16 @@ int main(int argc, char* argv[]) {
     // Initialize main log with default config
     Common::Log::Setup("shadps4.log");
 
-    LOG_INFO(Debug, "Run: {}", fmt::join(std::span(argv, argc), ""));
+    LOG_INFO(Debug, "Run: {}", fmt::join(std::span(argv, argc), " "));
 
     IPC::Instance().Init();
 
-    auto emu_state = std::make_shared<EmulatorState>();
-    EmulatorState::SetInstance(emu_state);
-    UserSettings.Load();
-
     // Initialize key manager
-    auto key_manager = KeyManager::GetInstance();
-    key_manager->LoadFromFile();
+    KeyManager::GetInstance()->LoadFromFile();
 
     // Load configurations
-    std::shared_ptr<EmulatorSettingsImpl> emu_settings = std::make_shared<EmulatorSettingsImpl>();
-    EmulatorSettingsImpl::SetInstance(emu_settings);
-    emu_settings->Load();
+    EmulatorSettings.Load();
+    UserSettings.Load();
 
     if (bigPicture) {
         BigPictureMode::Launch(argv[0], sameProcess);
@@ -243,12 +237,20 @@ int main(int argc, char* argv[]) {
     };
     if (!std::filesystem::exists(ebootPath) && !archive_component_exists(ebootPath)) {
         bool found = false;
-        constexpr int maxDepth = 5;
         for (const auto& installDir : EmulatorSettings.GetGameInstallDirs()) {
-            if (auto foundPath = Common::FS::FindGameByID(installDir, *gamePath, maxDepth)) {
+            if (auto foundPath = Common::FS::FindGameByID(installDir, *gamePath, 0)) {
                 ebootPath = *foundPath;
                 found = true;
                 break;
+            }
+        }
+        if (!found) {
+            for (const auto& installDir : EmulatorSettings.GetGameInstallDirs()) {
+                if (auto foundPath = Common::FS::FindGameByID(installDir, *gamePath, 5)) {
+                    ebootPath = *foundPath;
+                    found = true;
+                    break;
+                }
             }
         }
         if (!found) {
